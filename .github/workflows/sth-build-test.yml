@@ -34,7 +34,7 @@ jobs:
         run: yarn build:packages
 
       - name: Run packages tests
-        run: yarn test:packages-no-concurrent
+        run: npx nyc -s yarn test:packages-no-concurrent
 
       - name: Build refapps
         run: yarn build:refapps
@@ -46,8 +46,10 @@ jobs:
         run: yarn build:docker
 
       - name: Run BDD for HUB params
-        run: SCRAMJET_TEST_LOG=1 yarn test:bdd-ci-no-host
+        run: npx nyc -s --clean=false yarn test:bdd-ci-no-host
 
       - name: Run BDD tests
-        run: SCRAMJET_TEST_LOG=1 yarn test:bdd-ci
+        run: npx nyc -s --clean=false yarn test:bdd-ci
 
+      - name: Get coverage
+        run: npx nyc report
